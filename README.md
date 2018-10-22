@@ -18,18 +18,24 @@ And run:
 ```
 devstack/stack.sh
 ```
-To workaround the issue of: ```Command "python setup.py egg_info" failed with error code 1``` on the: ```pycparser``` package, do the following downgrade:
-```
-sudo pip install setuptools==33.1.1
-```
-Fetch this repo: ```git clone .........```
+> If needed to workaround the issue of: ```Command "python setup.py egg_info" failed with error code 1``` on the: ```pycparser``` package
+> Do the following downgrade:
+> ```
+> sudo pip install setuptools==33.1.1
+> ```
+
+Fetch this repo: ```git clone https://github.com/yuvalif/kuryr-lab.git```
 
 # Test Default Network
-First run: ```source ./devstack/openrc admin admin``` and then: 
+First run: 
+```
+source ./devstack/openrc admin admin
+``` 
+and then: 
 ```
 openstack network list
 ```
-And: 
+and: 
 
 ```
 openstack subnet list
@@ -56,7 +62,7 @@ Then create the ```NetworkAttachmentDefinition``` CRD:
 ```
 kubectl create -f kuryr-lab/net-a-conf.yaml
 ```
-Now, the pod could eb created:
+Now, the pod could be created:
 ```
 kubectl create -f kuryr-lab/cirros-pod-multinet.yaml
 ```
