@@ -1,0 +1,10 @@
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: net-a-conf
+  annotations:
+    openstack.org/kuryr-config: '{
+      "subnetId": "subnet-a"
+    }'
+spec:
+  config: '{}'

@@ -1,0 +1,14 @@
+piVersion: v1
+kind: Pod
+metadata:
+  name: cirros-multinet
+  annotations:
+    k8s.v1.cni.cncf.io/networks: net-a-conf
+spec:
+  containers:
+  - name: cirros
+    image: cirros
+    resources:
+      limits:
+        memory: "128Mi"
+    command: ["sleep", "1000"]
