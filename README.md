@@ -1,6 +1,8 @@
 # Devstack Installation
-The following process was tested on CentOS7.5, to create a CentOS7.5 machine you can use ```./create-centos-vm.sh``` script.
-Install ```git```: 
+The following process was tested on CentOS7.5.
+> To create a CentOS7.5 machine you can use ```./create-centos-vm.sh``` script.
+
+First step is to install ```git```: 
 ```
 yum update -y && yum install -y git
 ```
@@ -32,12 +34,11 @@ First run:
 ```
 source ./devstack/openrc admin admin
 ``` 
-and then: 
+And then: 
 ```
 openstack network list
 ```
-and: 
-
+And: 
 ```
 openstack subnet list
 ```
@@ -51,8 +52,6 @@ And then:
 kubectl get pods -o wide
 ```
 To verify that the pod is running and received an IP address in the correct range.
-
-
 ## Multi Network
 First, create the networks in openstack (assuming the range 10.10.0.0/24 is not taken by the other networks):
 ```
@@ -68,7 +67,7 @@ Now, the pod could be created:
 ```
 kubectl create -f kuryr-lab/cirros-pod-multinet.yaml
 ```
-Now, three interfaces should exist on the pod, the default one as well as one for net-a and one for net-b. The default one is shown by calling:
+Three interfaces should exist on the pod, the default one as well as one for net-a and one for net-b. The default one is shown by calling:
 ```
 kubectl get pods -o wide
 ```
@@ -86,7 +85,7 @@ To debug kuryr-kubernetes issues use the following commands:
 ```
 sudo journalctl -u devstack@kuryr-kubernetes | less
 ```
-and:
+And:
 ```
 sudo journalctl -u devstack@kuryr-daemon | less
 ```
