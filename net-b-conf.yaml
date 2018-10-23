@@ -1,8 +1,8 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: net-a-conf
+  name: net-b-conf
   annotations:
     openstack.org/kuryr-config: '{
-      "subnetId": "65ba839b-65f7-4683-acc3-aa216f5c0d44"
+      "subnetId": "ea5f3daa-bb3f-484e-b4b6-90fe4606cc2d"
     }'

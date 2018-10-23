@@ -58,12 +58,25 @@ First, create the networks in openstack (assuming the range 10.10.0.0/24 is not 
 openstack network create net-a
 openstack subnet create subnet-a --network net-a --subnet-range 10.10.0.0/24
 ```
-Then create the ```NetworkAttachmentDefinition``` CRD:
+Look at the subnet ID from the above output, and replace the IDs in ```net-a-conf.yaml``` and ```net-b-conf.yaml```, then create the ```NetworkAttachmentDefinition``` CRD:
 ```
 kubectl create -f kuryr-lab/net-a-conf.yaml
+kubectl create -f kuryr-lab/net-b-conf.yaml
 ```
 Now, the pod could be created:
 ```
 kubectl create -f kuryr-lab/cirros-pod-multinet.yaml
 ```
+Now, three interfaces should exist on the pod, the default one as well as one for net-a and one for net-b. The default one is shown by calling:
+```
+```
+In order to see the other interfaces, use:
+```
+kubectl exec cirros-multinet ip a
+```
+> In case the above is failing due to some issue, use docker directly:
+> ```
+> CONTAINER_ID=`docker ps | grep cirros-multinet | grep sleep  | awk '{print $1}' | tail -n 1`
+> docker exec $CONTAINER_ID= ip a
+> ```
 
