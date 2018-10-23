@@ -91,9 +91,33 @@ The initial purpose of the kuryr-kubernetes is to allow both pods (managed by ku
 In case of Kubevirt, however, the purpose is to connect virtual machine managed by kubernetes/openshift) to share the same networking infrastructure with pods and virtual machines managed by openstack.
 
 Note that kubernetes is not running inside a virtual machine, instead, it is installed directly on the same host running openstack. For Kubevirt, this is an advantage, as one level of virtualization is spared.
+## Installation
+First step is to install Kubevirt, for that, follow the instructions from [here](http://kubevirt.io/get_kubevirt/):
+```
+export VERSION=v0.8.0
+$ kubectl create \
+    -f https://github.com/kubevirt/kubevirt/releases/download/$VERSION/kubevirt.yaml
+```
+Wait for all the Kuberit pods to run by watching:
+```
+kubectl get --all-namespaces pods
+```
 ## Default Network
-
+Now create the Virtual Machine Instance (VMI):
+```
+kubectl create -f kuryr-lab/vmi-ephemeral.yaml
+```
+Make sure that it is up and running, and get the IP address that was given to its "launcher" pod, by running:
+```
+kubectl get pods -o wide
+```
+And ssh into the VM using the pod's IP (user: cirros, password: gocubsgo) to verify that it got the right IP address from the default kuryr-kubernetes subnet:
+```
+ssh cirros@10.0.0.102 '/sbin/ip a'
+```
 ## Multi Network
+> This is currently only supported from a dev branch, which is not merged yet, see [this PR](https://github.com/kubevirt/kubevirt/pull/1642)
+> Which means that different installation is needed. Information on how to build Kubevirt locally and install it from local repository, see [here](https://gist.github.com/yuvalif/6ced0e34d747576d1a801aa9c8389e93)
 
 # Debugging
 kuryr-kubernetes logs are here:
