@@ -69,6 +69,7 @@ kubectl create -f kuryr-lab/cirros-pod-multinet.yaml
 ```
 Now, three interfaces should exist on the pod, the default one as well as one for net-a and one for net-b. The default one is shown by calling:
 ```
+kubectl get pods -o wide
 ```
 In order to see the other interfaces, use:
 ```
