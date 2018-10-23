@@ -6,6 +6,9 @@ First step is to install ```git```:
 ```
 yum update -y && yum install -y git
 ```
+
+> Bedore the devstack installation start, update ```/etc/hosts/``` and make sure that the host name and IP are set there.
+
 Follow the [devstack instructions](https://docs.openstack.org/kuryr-kubernetes/latest/installation/devstack/basic.html) for installing kuryr-kubernetes (with some minor corrections):
 ```
 git clone https://git.openstack.org/openstack-dev/devstack
@@ -81,7 +84,19 @@ kubectl exec cirros-multinet ip a
 > docker exec $CONTAINER_ID= ip a
 > ```
 
-To debug kuryr-kubernetes issues use the following commands:
+# Test [Kubevirt](https://kubevirt.io/)
+## Background
+The initial purpose of the kuryr-kubernetes is to allow both pods (managed by kubernetes/openshift) and virtual machines (managed by openstack) to share the same networking infrastructure. 
+
+In case of Kubevirt, however, the purpose is to connect virtual machine managed by kubernetes/openshift) to share the same networking infrastructure with pods and virtual machines managed by openstack.
+
+Note that kubernetes is not running inside a virtual machine, instead, it is installed directly on the same host running openstack. For Kubevirt, this is an advantage, as one level of virtualization is spared.
+## Default Network
+
+## Multi Network
+
+# Debugging
+kuryr-kubernetes logs are here:
 ```
 sudo journalctl -u devstack@kuryr-kubernetes | less
 ```
@@ -89,5 +104,14 @@ And:
 ```
 sudo journalctl -u devstack@kuryr-daemon | less
 ```
-# Test [Kubevirt](https://kubevirt.io/)
-The initial purpose of the kuryr-kubernetes is to allow both pods (managed by kubernetes/openshift) and virtual machines (managed by openstack) to share the same networking infrastructure. Here, however, the purpose is to connect virtual machine managed by kubernetes/openshift) to share the same networking infrastructure with pods and virtual machines managed by openstack.
+Kubernetes services are not running as pods (as done in a regular kubernetes deployment), instead they are running as services (executed directly by docker). Which means that running ```kubectl get pods -n kube-system``` will not show them.
+E.g.:
+```
+systemctl status devstack@kubernetes-api.service    
+● devstack@kubernetes-api.service - Devstack devstack@kubernetes-api.service
+   Loaded: loaded (/etc/systemd/system/devstack@kubernetes-api.service; enabled; vendor preset: disabled)
+   Active: active (running) since Tue 2018-10-23 10:09:12 EDT; 4s ago
+ Main PID: 13617 (docker)
+   CGroup: /system.slice/system-devstack.slice/devstack@kubernetes-api.service
+           └─13617 /bin/docker start --attach kubernetes-api
+```
