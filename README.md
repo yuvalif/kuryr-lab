@@ -26,7 +26,8 @@ devstack/stack.sh
 
 Fetch this repo: ```git clone https://github.com/yuvalif/kuryr-lab.git```
 
-# Test Default Network
+# Test Pods
+## Default Network
 First run: 
 ```
 source ./devstack/openrc admin admin
@@ -52,7 +53,7 @@ kubectl get pods -o wide
 To verify that the pod is running and received an IP address in the correct range.
 
 
-# Test Multi Network
+## Multi Network
 First, create the networks in openstack (assuming the range 10.10.0.0/24 is not taken by the other networks):
 ```
 openstack network create net-a
@@ -81,3 +82,13 @@ kubectl exec cirros-multinet ip a
 > docker exec $CONTAINER_ID= ip a
 > ```
 
+To debug kuryr-kubernetes issues use the following commands:
+```
+sudo journalctl -u devstack@kuryr-kubernetes | less
+```
+and:
+```
+sudo journalctl -u devstack@kuryr-daemon | less
+```
+# Test [Kubevirt](https://kubevirt.io/)
+The initial purpose of the kuryr-kubernetes is to allow both pods (managed by kubernetes/openshift) and virtual machines (managed by openstack) to share the same networking infrastructure. Here, however, the purpose is to connect virtual machine managed by kubernetes/openshift) to share the same networking infrastructure with pods and virtual machines managed by openstack.
