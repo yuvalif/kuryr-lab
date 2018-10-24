@@ -130,7 +130,7 @@ sudo journalctl -u devstack@kuryr-daemon | less
 ```
 Kubernetes services are not running as pods (as done in a regular kubernetes deployment), instead they are running as services (executed directly by docker). Which means that running ```kubectl get pods -n kube-system``` will not show them.
 E.g.:
-```
+```bash
 systemctl status devstack@kubernetes-api.service    
 ● devstack@kubernetes-api.service - Devstack devstack@kubernetes-api.service
    Loaded: loaded (/etc/systemd/system/devstack@kubernetes-api.service; enabled; vendor preset: disabled)
@@ -138,4 +138,12 @@ systemctl status devstack@kubernetes-api.service
  Main PID: 13617 (docker)
    CGroup: /system.slice/system-devstack.slice/devstack@kubernetes-api.service
            └─13617 /bin/docker start --attach kubernetes-api
+```
+To see all relevant services, use:
+```
+sudo systemctl list-units --all "devstack*"
+```
+Also, make sure that all relevant services are enabled, and running. Note that docker may need to be enabled as well:
+```
+sudo systemctl enable docker
 ```
