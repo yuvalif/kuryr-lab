@@ -1,5 +1,6 @@
 # Devstack Installation
 The following process was tested on CentOS7.5.
+> Note that at least 6G RAM are needed on the machine to run openstack, kubernetes etc.
 > To create a CentOS7.5 machine you can use ```./create-centos-vm.sh``` script.
 
 First step is to install ```git```: 
